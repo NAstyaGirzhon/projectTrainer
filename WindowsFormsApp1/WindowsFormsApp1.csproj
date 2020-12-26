@@ -62,8 +62,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\IPresenter.cs" />
-    <Compile Include="Common\IView.cs" />
     <Compile Include="Displaying_Graphs.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,14 +74,8 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\WDoctorModel.cs" />
-    <Compile Include="Presenters\DoctorPresenter.cs" />
-    <Compile Include="Presenters\GraphsPresenter.cs" />
-    <Compile Include="Presenters\RegistrPresenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\IDoctorView.cs" />
-    <Compile Include="Views\IRegistrView.cs" />
     <Compile Include="WindowDoctor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -148,6 +140,15 @@
     <Content Include="images\patientimage.png" />
     <Content Include="images\receptionist.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{ae9532a0-ab4f-43df-85c0-e49d0154c36b}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presenter\Presenter.csproj">
+      <Project>{0e2eb730-f7c1-46d6-84ea-a8925fdfcc16}</Project>
+      <Name>Presenter</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

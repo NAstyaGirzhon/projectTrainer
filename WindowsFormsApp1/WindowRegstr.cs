@@ -8,7 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO; // класс для работы с файлами
-
+using Presenter;
+using Model;
 namespace WindowsFormsApp1
 {
     public partial class WindowRegstr : Form
@@ -18,36 +19,23 @@ namespace WindowsFormsApp1
             InitializeComponent();
           
         }
-      
-        string writePath = @"listDataPatients.txt";
+
+        //string writePath = @"listDataPatients.txt";
         string writePathfReport = @"Report.txt";
-       
+
         private void registerButton_Click(object sender, EventArgs e)
         {
-          
-            try
-            {
-                //Конструкция using оформляет блок кода и создает объект некоторого класса, который реализует интерфейс IDisposable, в частности, его метод Dispose. 
-                //При завершении блока кода у объекта вызывается метод Dispose.
-                using (StreamWriter sw = new StreamWriter(writePath, true, System.Text.Encoding.Default))
-                {
-                    sw.WriteLine(namesTextBox.Text+" " + ageTextBox.Text+" " + genderTextBox.Text);
-                    
-                }
-                // false указывает на перезаписывание файла
-                using (StreamWriter sww = new StreamWriter(writePathfReport, false, System.Text.Encoding.Default))
-                {
-                    sww.WriteLine("Patient: " + namesTextBox.Text + " " + ageTextBox.Text + " " + genderTextBox.Text);
 
-                }
-            }
-            catch (Exception ee)
-            {
-                Console.WriteLine(ee.Message);
-            }
-       
-            // заполнение строки
-             dataGridView1.Rows.Add(namesTextBox.Text, ageTextBox.Text, genderTextBox.Text);
+            var PM = new PatientM {
+                Name = namesTextBox.Text,
+                Gender = genderTextBox.Text,
+                Age = ageTextBox.Text
+            };
+            var PReg = new PrWRegstr();
+            PReg.WritetoFile(PM);
+
+
+            dataGridView1.Rows.Add(namesTextBox.Text, ageTextBox.Text, genderTextBox.Text);
             //обновляем таблицу
             dataGridView1.Refresh();
             namesTextBox.Clear();

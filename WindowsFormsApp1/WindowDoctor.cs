@@ -7,9 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WindowsFormsApp1.Views;
-using WindowsFormsApp1.Model;
+using Model;
+
 using System.IO;
+using Presenter;
+
 namespace WindowsFormsApp1
 {
     public partial class WindowDoctor : Form
@@ -53,35 +55,35 @@ namespace WindowsFormsApp1
         {
             int i = 0;
             int a;
-            if (pressureCheck.Checked == true)
+            if (pressureCheck.Checked)
             {
                 sensor = Sensors.pressureCheck;
                 ArrayS[i] = (int)sensor;
                 i++;
                 BloodPressureSensor.ForeColor = Color.Green;
             }
-            if (temperatureCheck.Checked == true)
+            if (temperatureCheck.Checked)
             {
                 sensor = Sensors.temperatureCheck;
                 ArrayS[i] = (int)sensor;
                 i++;
                 skinTemperatureSensor.ForeColor = Color.Green;
             }
-            if (pulseCheck.Checked == true)
+            if (pulseCheck.Checked)
             {
                 sensor = Sensors.pulseCheck;
                 ArrayS[i] = (int)sensor;
                 i++;
                 heartRateSensor.ForeColor = Color.Green;
             }
-            if (wetCheck.Checked == true)
+            if (wetCheck.Checked)
             {
                 sensor = Sensors.wetCheck;
                 ArrayS[i] = (int)sensor;
                 i++;
                 skinmoistureSensor.ForeColor = Color.Green;
             }
-            if (electroCheck.Checked == true)
+            if (electroCheck.Checked)
             {
                 sensor = Sensors.electroCheck;
                 ArrayS[i] = (int)sensor;
@@ -93,7 +95,7 @@ namespace WindowsFormsApp1
             //    MessageBox.Show("Выберите один из датчиков");
             //}
 
-            if (VeloCheck.Checked == true)
+            if (VeloCheck.Checked)
             {
                 PowerCheck.Checked = false;
                 RunCheck.Checked = false;
@@ -106,11 +108,10 @@ namespace WindowsFormsApp1
                     }
                 }
             }
-            else if (PowerCheck.Checked == true)
+            else if (PowerCheck.Checked)
             {
                 VeloCheck.Checked = false;
                 RunCheck.Checked = false;
-                
           
                     for (int k = 0; k < ArrayS.Length; k++)
                     {
@@ -123,7 +124,7 @@ namespace WindowsFormsApp1
                     }
                 
             }
-            else if (RunCheck.Checked == true)
+            else if (RunCheck.Checked)
             {
                 VeloCheck.Checked = false;
                 PowerCheck.Checked = false;
@@ -148,7 +149,7 @@ namespace WindowsFormsApp1
                 {
 
                    g  = ArrayfGraphs[k, j];
-                    string str = g.ToString();
+                    string str = g.ToString(); 
                     textBox1.Text += str + " ";
                     
                 }
@@ -158,27 +159,12 @@ namespace WindowsFormsApp1
             }
         }
 
-        string writePathfReport = @"Report.txt";
-        string data = " ";
+      
         private void GotoWindowDG_Click(object sender, EventArgs e)
-        {   
-            try
-            {
+        {
 
-                
-                using (StreamWriter sww = new StreamWriter(writePathfReport, true, System.Text.Encoding.Default))
-                {
-                  
-                    data = dateTimePicker1.Value.ToString();
-                    sww.WriteLine("Date and time of reception: "+ data);
-
-                }
-            }
-            catch (Exception ee)
-            {
-                MessageBox.Show(ee.Message);  
-            }
-            WDoctorModel.getArray = ArrayfGraphs;
+            DocaDGModel.getArray = ArrayfGraphs;
+            DocaDGModel.getArr = ArrayS;
             Displaying_Graphs graphs = new Displaying_Graphs();
             graphs.Show();
 
@@ -186,16 +172,17 @@ namespace WindowsFormsApp1
        
         private void WindowDoctor_Load(object sender, EventArgs e)
         {
-            
-           
+
+            var PM = new PatientM
+            {
+                DateTime = dateTimePicker1.Value.ToString()
+            };
+            var PReg = new PrWRegstr();
+            PReg.WritetoFile(PM);
+
         }
 
-        //public  double[,] getArray
-        //{
-        //    get { return ArrayfGraphs; }
-        //     }
+        
     }
 
-
-  
 }
